@@ -14,14 +14,21 @@ $token = $_GET['token'];
 try{
     $conn = new PDO($tns,$db_username,$db_password);
     if($conn){
-        $sql = "select u.userid, u.uname, u.role, u.lastlogin, s.sid, s.sname, s.sgender, s.sage, p.pid, p.pname, d.did, d.dname
+        /*$sql = "select u.userid, u.uname, u.role, u.lastlogin, s.sid, s.sname, s.sgender, s.sage, p.pid, p.pname, d.did, d.dname
                      from admin.useraccount u
                      left join admin.staff s on u.sid = s.sid
                      left join admin.post p on s.pid = p.pid
                      left join admin.dept d on p.did = d.did
                      where u.utoken = '$token' AND status = 0";
+                     */
+        /*$sql = "select u.userid, u.uname, u.role, u.lastlogin, s.sid, s.sname, s.sgender, s.sage, p.pid, p.pname, d.did, d.dname
+                    from admin.useraccount u
+                    left join admin.staff s on u.sid = s.sid
+                    left join admin.post p on s.pid = p.pid
+                    left join admin.dept d on p.did = d.did";*/
         $query = $conn->query($sql);
         $result = $query->fetchAll(PDO::FETCH_CLASS);
+        //echo($result);
         if(sizeof($result) > 0){
             $json = array("status"=>0, "result"=>$result);
         }else{

@@ -16,7 +16,7 @@ try{
     $conn = new PDO($tns,$db_username,$db_password);
     if($conn){
         //print("Connection Success.");
-        $sql = "SELECT userid,role,status FROM skyeye.UserAccount WHERE uname='$login_name' AND pwd='$login_pwd'";
+        $sql = "SELECT userid,role,status FROM admin.useraccount WHERE uname='$login_name' AND pwd='$login_pwd'";
         $query = $conn->query($sql);
         $result = $query->fetchAll();
         if(check_permission($result)){
@@ -25,20 +25,20 @@ try{
                 for($i = 0; $i < 32; $i++){
                     $rndToken .= dechex(rand(0,15));
                 }
-                $sql2 = "SELECT * FROM skyeye.UserAccount WHERE UToken = '$rndToken'";
+                $sql2 = "SELECT * FROM admin.useraccount WHERE UToken = '$rndToken'";
                 $query2 = $conn->query($sql2);
                 $result2 = $query2->fetchAll();
                 if(sizeof($result2) == 0){
                     break;
                 }
             }
-            $userid = $result[0]["USERID"];
-            $sql3 = "UPDATE skyeye.UserAccount SET UToken = '$rndToken',lastlogin = SYSTIMESTAMP
+            $userid = $result[0]["userid"];
+            $sql3 = "UPDATE admin.useraccount SET UToken = '$rndToken',lastlogin = CURRENT_TIMESTAMP()
                          WHERE userid = '$userid'";
             $query3 = $conn->prepare($sql3);
             $query3->execute();
             if($query3->rowCount() > 0){
-                $json = array("status"=>0,"token"=>$rndToken, "role"=>$result[0]["ROLE"]);
+                $json = array("status"=>0,"token"=>$rndToken, "role"=>$result[0]["role"]);
             }else{
                 $json = array("status"=>1);
             }

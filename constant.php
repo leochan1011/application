@@ -6,14 +6,18 @@
  * Time: 4:41 AM
  */
 
-if (!$required) {
-    die("Cannot be executed independently.");
-}
+//if (!$required) {
+   // die("Cannot be executed independently.");
+//}
 
-$tns = "mysql:host=database.cjzuwj48cotq.ap-southeast-1.rds.amazonaws.com;port=3306;dbname=admin";
-
-$db_username = "admin";
-$db_password = "leo12345";
+//$dbhost = '127.0.0.1';
+//$dbport = '3306';
+//$dbname = 'admin';
+//$charset = 'utf8';
+//$tns = "mysql:host={$dbhost};port={$dbport};dbname={$dbname};charset={$charset}";
+$tns = 'mysql:dbname=admin;host=127.0.0.1;port=3306';
+$db_username = 'root';
+$db_password = 'root';
 
 function build_sql_update($table, $data, $where)
 {
@@ -32,14 +36,14 @@ function build_sql_update($table, $data, $where)
 }
 
 function check_admin_permission($rows){
-    if(sizeof($rows) == 1 && $rows[0]["ROLE"] == "admin" && $rows[0]["STATUS"] == 0){
+    if(sizeof($rows) == 1 && $rows[0]["role"] == "admin" && $rows[0]["status"] == 0){
         return true;
     }
     return false;
 }
 
 function check_permission($rows){
-    if(sizeof($rows) == 1 && $rows[0]["STATUS"] == 0){
+    if(sizeof($rows) == 1 && $rows[0]["status"] == 0){
         return true;
     }
     return false;
